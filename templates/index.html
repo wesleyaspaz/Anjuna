@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Anjuna Tech - Transforme Dados em Decisões Inteligentes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/graphology@0.25.1/dist/graphology.umd.min.js" onload="console.log('✅ Graphology loaded')"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sigma@2.4.0/build/sigma.min.js" onload="console.log('✅ Sigma loaded')"></script>
+    <style>
+        :root {
+            --primary: #10B981;
+            --secondary: #059669;
+            --accent: #047857;
+            --dark: #1F2937;
+            --light: #F9FAFB;
+            --white: #FFFFFF;
+            --light-green: #D1FAE5;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>')
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-text h2 {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .graph-container {
+            width: 500px;
+            height: 400px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        #sigma-container {
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            position: relative; /* Necessário para os rótulos HTML */
+        }
+        
+        /* --- NOVOS ESTILOS PARA RÓTULOS HTML --- */
+        #label-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Permite clicar através dos rótulos */
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .sigma-label {
+            position: absolute;
+            color: white;
+            font-size: 10px;
+            font-family: "Arial, sans-serif";
+            font-weight: 600;
+            padding: 2px;
+            text-align: center;
+            /* Centraliza o rótulo horizontalmente */
+            transform: translateX(-50%); 
+            /* Evita que o texto seja selecionado */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; 
+            /* Adiciona uma leve sombra para legibilidade */
+            text-shadow: 0 0 2px rgba(0,0,0,0.7);
+        }
+        
+        @media (max-width: 480px) {
+            .sigma-label {
+                font-size: 8px;
+            }
+        }
+        /* --- FIM DOS NOVOS ESTILOS --- */
+
+
+        .graph-controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .graph-switch-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .graph-switch-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .graph-legend {
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            max-width: 100%;
+        }
+        
+        .legend-colors {
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 480px) {
+            .legend-colors {
+                font-size: 0.7rem !important;
+                gap: 0.3rem !important;
+            }
+            
+            .legend-colors > div {
+                margin-bottom: 0.2rem;
+            }
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            pointer-events: none;
+            z-index: 10000;
+            max-width: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        /* Product Features */
+        .features {
+            background: var(--light-green);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .feature-card.emphasized {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .feature-card.emphasized::before {
+            background: white;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card.emphasized .feature-icon {
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: inherit;
+        }
+
+        .feature-card p {
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        /* How It Works */
+        .workflow {
+            background: var(--light-green);
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .workflow-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+
+        .workflow-step h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .workflow-step p {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Benefits */
+        .benefits {
+            background: white;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .benefit-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gray-800) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            line-height: 1.6;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* RESPONSIVE BREAKPOINTS - Mobile First Approach */
+        
+        /* Typography responsive scaling */
+        html {
+            font-size: 14px;
+        }
+        
+        @media (min-width: 481px) {
+            html {
+                font-size: 16px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            html {
+                font-size: 16px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            html {
+                font-size: 18px;
+            }
+        }
+        
+        /* Mobile Small: 320px - 480px */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero {
+                min-height: 100vh;
+                padding: 80px 0 40px;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .hero-visual {
+                order: -1;
+            }
+            
+            .hero-text h1 {
+                font-size: 28px;
+                line-height: 1.1;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-text h2 {
+                font-size: 18px;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-text p {
+                font-size: 16px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                gap: 0.8rem;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                padding: 12px 20px;
+                font-size: 16px;
+                min-height: 44px;
+            }
+            
+            .graph-container {
+                width: 100%;
+                height: 300px;
+                min-height: 300px;
+                max-width: none;
+            }
+            
+            #sigma-container {
+                width: 100%;
+                height: 100%;
+                min-height: 300px;
+            }
+            
+            .graph-controls {
+                margin-top: 1rem;
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .graph-switch-btn {
+                width: 100%;
+                max-width: 200px;
+                min-height: 44px;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            .section {
+                padding: 40px 0;
+            }
+            
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .contact-form-container {
+                margin: 0 16px;
+                padding: 1.5rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .form-control {
+                padding: 12px;
+                font-size: 16px;
+                min-height: 44px;
+            }
+            
+            .btn-contact-submit {
+                width: 100%;
+                min-height: 44px;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        /* Mobile Standard: 481px - 768px */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .hero {
+                padding: 100px 0 60px;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            
+            .hero-visual {
+                order: -1;
+            }
+            
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            
+            .hero-text h2 {
+                font-size: 20px;
+            }
+            
+            .hero-cta {
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                min-height: 44px;
+            }
+            
+            .graph-container {
+                width: 100%;
+                height: 320px;
+                max-width: 450px;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            .contact-form-container {
+                max-width: 500px;
+                padding: 2rem;
+            }
+        }
+        
+        /* Tablet: 769px - 1024px */
+        @media (min-width: 769px) {
+            #desktop-legend {
+                display: block !important;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 0 40px;
+            }
+            
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+                align-items: center;
+                text-align: left;
+            }
+            
+            .hero-visual {
+                order: 1;
+            }
+            
+            .hero-text h1 {
+                font-size: 36px;
+            }
+            
+            .hero-text h2 {
+                font-size: 22px;
+            }
+            
+            .graph-container {
+                width: 100%;
+                height: 450px;
+                min-height: 450px;
+                max-width: 500px;
+            }
+            
+            #sigma-container {
+                width: 100%;
+                height: 100%;
+                min-height: 450px;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .contact-form-container {
+                max-width: 600px;
+                padding: 2.5rem;
+            }
+        }
+        
+        /* Desktop: 1025px - 1440px */
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            .container {
+                max-width: 1200px;
+                padding: 0 60px;
+            }
+            
+            .hero {
+                min-height: 100vh;
+                padding: 120px 0;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                align-items: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 48px;
+            }
+            
+            .hero-text h2 {
+                font-size: 24px;
+            }
+            
+            .graph-container {
+                width: 500px;
+                height: 500px;
+                min-height: 500px;
+            }
+            
+            #sigma-container {
+                width: 100%;
+                height: 100%;
+                min-height: 500px;
+            }
+            
+            .section {
+                padding: 100px 0;
+            }
+            
+            .section-title {
+                font-size: 40px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 2rem;
+                position: relative;
+            }
+            
+            /* Add connecting lines for desktop workflow */
+            .workflow-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 2rem;
+                right: -1rem;
+                width: 2rem;
+                height: 2px;
+                background: linear-gradient(to right, var(--primary), var(--secondary));
+                z-index: 1;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .contact-form-container {
+                max-width: 700px;
+            }
+        }
+        
+        /* Large Desktop: 1441px+ */
+        @media (min-width: 1441px) {
+            .container {
+                max-width: 1400px;
+                padding: 0 80px;
+            }
+            
+            .hero-text h1 {
+                font-size: 56px;
+            }
+            
+            .hero-text h2 {
+                font-size: 28px;
+            }
+            
+            .graph-container {
+                width: 600px;
+                height: 600px;
+                min-height: 600px;
+            }
+            
+            #sigma-container {
+                width: 100%;
+                height: 100%;
+                min-height: 600px;
+            }
+            
+            .section {
+                padding: 120px 0;
+            }
+            
+            .section-title {
+                font-size: 48px;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 3rem;
+            }
+        }
+        
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High contrast support */
+        @media (prefers-contrast: high) {
+            .btn-primary {
+                border: 2px solid var(--dark);
+            }
+            
+            .btn-secondary {
+                border: 2px solid white;
+            }
+        }
+        
+        /* Legacy Mobile Styles - Keeping for backward compatibility */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1001;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+
+        /* Graph specific styling */
+        .sigma-mouse {
+            cursor: pointer;
+        }
+        
+        /* Responsive Images & Media */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Touch-friendly elements */
+        @media (max-width: 768px) {
+            button, .btn, a {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-menu a {
+                padding: 12px;
+                display: block;
+                border-bottom: 1px solid var(--gray-200);
+            }
+            
+            .nav-menu a:last-child {
+                border-bottom: none;
+            }
+        }
+        
+        /* Prevent horizontal scroll */
+        body {
+            overflow-x: hidden;
+        }
+        
+        * {
+            max-width: 100%;
+        }
+        
+        /* Responsive containers */
+        .graph-container,
+        #sigma-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Contact Form Styles */
+        .contact-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            padding: 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--gray-400);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .btn-contact-submit {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-contact-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-contact-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Enhanced Contact Form Responsiveness */
+        @media (max-width: 480px) {
+            .contact-form-container {
+                margin: 0 16px;
+                padding: 1.5rem;
+                border-radius: 8px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .form-control {
+                padding: 14px 12px;
+                font-size: 16px;
+                border-radius: 8px;
+                min-height: 44px;
+            }
+            
+            textarea.form-control {
+                min-height: 100px;
+            }
+            
+            .form-label {
+                font-size: 14px;
+                margin-bottom: 6px;
+            }
+            
+            .btn-contact-submit {
+                width: 100%;
+                padding: 14px 20px;
+                font-size: 16px;
+                min-height: 50px;
+                border-radius: 8px;
+            }
+        }
+        
+        @media (min-width: 481px) and (max-width: 768px) {
+            .contact-form-container {
+                margin: 0 20px;
+                padding: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .btn-contact-submit {
+                width: 100%;
+                padding: 12px 24px;
+                font-size: 16px;
+                min-height: 48px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo">Anjuna Tech</a>
+            <ul class="nav-menu">
+                <li><a href="#hero">Início</a></li>
+                <li><a href="#features">Produto</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#workflow">Como Funciona</a></li>
+                <li><a href="#benefits">Benefícios</a></li>
+<li><a href="#contact">Contato</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Expertise e Inovação a Serviço do Futuro</h1>
+                    <h2>Análise Inteligente com Visualização por Grafo</h2>
+                    <p>A Anjuna transforma a gestão em saúde através de IA conversacional e visualização por grafo. Mapeamos processos e riscos usando bases HVBC, permitindo diálogo direto com dados em linguagem natural. Nossa plataforma apresenta o ciclo completo de cuidados de forma visual e intuitiva.</p>
+                    <div class="hero-cta">
+                        <a href="#features" class="btn btn-primary">Conheça a Plataforma</a>
+<a href="#contact" class="btn btn-secondary">Agende uma Demo</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="graph-container">
+                        <!-- O container do Sigma agora tem os rótulos HTML sobre ele -->
+                        <div id="sigma-container" style="width: 100%; height: 100%; min-height: 400px; background: transparent;">
+                            <!-- NOVO: Container para os rótulos HTML -->
+                            <div id="label-container"></div>
+                        </div>
+                    </div>
+                    <div class="graph-legend">
+                        <div id="current-graph-name" style="font-weight: bold; margin-bottom: 0.5rem;">HFMEA - Processo de Medicação Hospitalar</div>
+                        <div class="legend-colors" style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; font-size: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <div style="width: 12px; height: 12px; background: #047857; border-radius: 50%;"></div>
+                                <span>Processo</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <div style="width: 12px; height: 12px; background: #10B981; border-radius: 50%;"></div>
+                                <span>Etapa</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <div style="width: 12px; height: 12px; background: #F59E0B; border-radius: 50%;"></div>
+                                <span>Falha</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <div style="width: 12px; height: 12px; background: #EF4444; border-radius: 50%;"></div>
+                                <span>Causa</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <div style="width: 12px; height: 12px; background: #DC2626; border-radius: 50%;"></div>
+                                <span>Efeito</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <div style="width: 12px; height: 12px; background: #3B82F6; border-radius: 50%;"></div>
+                                <span>Controle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Features -->
+    <section id="features" class="section features">
+        <div class="container">
+            <h2 class="section-title">Análise HFMEA: Processo de Medicação Hospitalar</h2>
+            <p style="text-align: center; font-size: 1.2rem; color: var(--gray-600); margin-bottom: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;">Visualização interativa de riscos e controles</p>
+            <p style="text-align: center; font-size: 1.1rem; color: var(--gray-600); margin-bottom: 2rem; max-width: 900px; margin-left: auto; margin-right: auto;">Mapeamento completo dos processos de prescrição, dispensação e administração de medicamentos, identificando falhas potenciais, causas, efeitos e controles implementados.</p>
+            
+            <!-- Graph Legend for Desktop -->
+            <div style="text-align: center; margin-bottom: 2rem; display: none;" id="desktop-legend">
+                <div style="display: inline-flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; font-size: 0.9rem; color: var(--gray-600); background: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background: #047857; border-radius: 50%;"></div>
+                        <span><strong>Processo Principal</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background: #10B981; border-radius: 50%;"></div>
+                        <span><strong>Etapa/Erro</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background: #F59E0B; border-radius: 50%;"></div>
+                        <span><strong>Modo de Falha</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background: #EF4444; border-radius: 50%;"></div>
+                        <span><strong>Causa</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background: #DC2626; border-radius: 50%;"></div>
+                        <span><strong>Efeito</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background: #3B82F6; border-radius: 50%;"></div>
+                        <span><strong>Controle</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>IA Conversacional</h3>
+                    <p>Converse com seus dados em linguagem natural e extraia insights instantaneamente</p>
+                </div>
+                <div class="feature-card emphasized">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Visualização por Grafo</h3>
+                    <p>Mapeamento completo de processos em grafos interativos que revelam conexões ocultas</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Base HVBC</h3>
+                    <p>Metodologia Value-Based Healthcare para otimização do ciclo de cuidados</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Análise de Riscos</h3>
+                    <p>Identifique e monitore riscos operacionais através de visualização inteligente</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Services -->
+    <section id="services" class="section" style="background: white;">
+        <div class="container">
+            <h2 class="section-title">Our Service</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>IA Conversacional</h3>
+                    <p>Converse com seus dados em linguagem natural e extraia insights instantaneamente</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Visualização por Grafo</h3>
+                    <p>Mapeamento completo de processos em grafos interativos que revelam conexões ocultas</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart-pulse"></i>
+                    </div>
+                    <h3>Base HVBC</h3>
+                    <p>Metodologia Value-Based Healthcare para otimização do ciclo de cuidados</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Análise de Riscos</h3>
+                    <p>Identifique e monitore riscos operacionais através de visualização inteligente</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="workflow" class="section workflow">
+        <div class="container">
+            <h2 class="section-title">Our Process Workflow</h2>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">01</div>
+                    <h3>Consultation</h3>
+                    <p>Agende uma consulta para discutir suas necessidades de gestão em saúde</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">02</div>
+                    <h3>Data Integration</h3>
+                    <p>Integramos com suas fontes de dados e estruturamos informações do ciclo de cuidados</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">03</div>
+                    <h3>AI Analysis</h3>
+                    <p>Nossa IA processa dados identificando padrões, riscos e oportunidades</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">04</div>
+                    <h3>Graph Visualization</h3>
+                    <p>Criamos visualizações interativas conectando todos os pontos do processo</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">05</div>
+                    <h3>Insights &amp; Optimization</h3>
+                    <p>Extraia insights através de conversação natural e otimize continuamente</p>
+                </div>
+            </div>
+        </div>
+    <!-- Benefits -->
+    <section id="benefits" class="section benefits">
+        <div class="container">
+            <h2 class="section-title">Benefícios para sua Organização</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Visão 360° do Ciclo de Cuidados</h3>
+                    <p>Entenda completamente como seus processos se conectam e onde estão as oportunidades de melhoria</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Redução de Riscos Operacionais</h3>
+                    <p>Identifique proativamente riscos antes que se tornem problemas através do mapeamento HVBC</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Decisões BaseADAS em Dados</h3>
+                    <p>Acesso direto a insights através de conversação com IA, sem necessidade de conhecimento técnico</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Desfechos Mensuráveis</h3>
+                    <p>Registre, meça e acompanhe todos os resultados do processo assistencial em tempo real</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="section" style="background: var(--light-green);">
+        <div class="container">
+            <h2 class="section-title">Entre em Contato</h2>
+            <!-- Texto movido para cá -->
+            <p style="text-align: center; font-size: 1.2rem; color: var(--gray-600); margin-bottom: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;">Pronto para transformar sua gestão em saúde?</p>
+            <p style="text-align: center; font-size: 1.2rem; color: var(--gray-600); margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">Agende uma demonstração e veja como a Anjuna pode revolucionar sua operação</p>
+            
+            <div class="contact-form-container">
+                <form id="contactForm" class="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="nome">Nome Completo *</label>
+                            <input type="text" id="nome" name="nome" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">E-mail *</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Campos Telefone e Empresa agora são full-width -->
+                    <div class="form-group">
+                        <label class="form-label" for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="empresa">Empresa/Organização</label>
+                        <input type="text" id="empresa" name="empresa" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="mensagem">Mensagem *</label>
+                        <textarea id="mensagem" name="mensagem" class="form-control" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-contact-submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action (Agora vazia, mas mantém a âncora #cta) -->
+    <section id="cta" class="section cta-section" style="padding: 2rem 0;"> 
+        <div class="container">
+            <div class="cta-content">
+                 <!-- Conteúdo removido e movido para acima do formulário -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Anjuna Tech</h3>
+                    <p>Transformando dados em decisões inteligentes através de IA e visualização por grafos para o setor de saúde.</p>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p>Email: contato@anjuna-tech.com</p>
+                    <p>Telefone: +55 (11) 9999-9999</p>
+                    <p>Endereço: São Paulo, SP - Brasil</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Soluções</h3>
+                    <p><a href="#services">IA Conversacional</a></p>
+                    <p><a href="#services">Visualização por Grafo</a></p>
+                    <p><a href="#services">Metodologia HVBC</a></p>
+                    <p><a href="#services">Análise de Riscos</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Empresa</h3>
+                    <p><a href="#hero">Sobre Nós</a></p>
+                    <p><a href="#benefits">Benefícios</a></p>
+                    <p><a href="#workflow">Como Funciona</a></p>
+<p><a href="#contact">Contato</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Anjuna Tech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+
+                // Close mobile menu if open
+                const navMenu = document.querySelector('.nav-menu');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Add loading animation to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+if (this.getAttribute('href') === '#contact' || this.getAttribute('href') === '#cta' || this.getAttribute('href').includes('mailto:')) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        background-color: rgba(255, 255, 255, 0.6);
+                        left: ${x}px;
+                        top: ${y}px;
+                        width: ${size}px;
+                        height: ${size}px;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                }
+            });
+        });
+
+        // Add CSS animation for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // HFMEA Graph Implementation
+        let currentGraphIndex = 0;
+        let sigmaInstance;
+        let tooltip;
+
+        function getNodeColor(tipo) {
+            switch(tipo) {
+                case 'Processo': return '#047857';
+                case 'Etapa': return '#10B981';
+                case 'Modo de Falha': return '#F59E0B';
+                case 'Causa': return '#EF4444';
+                case 'Efeito': return '#DC2626';
+                case 'Controle': return '#3B82F6';
+                default: return '#D1FAE5';
+            }
+        }
+
+        function getNodeSize(tipo) {
+            const isMobile = window.innerWidth <= 768;
+            const isSmallMobile = window.innerWidth <= 480;
+            
+            let baseSize;
+            switch(tipo) {
+                case 'Processo': baseSize = 25; break;
+                case 'Etapa': baseSize = 20; break;
+                case 'Modo de Falha': baseSize = 20; break;
+                case 'Causa': baseSize = 18; break;
+                case 'Efeito': baseSize = 18; break;
+                case 'Controle': baseSize = 18; break;
+                default: baseSize = 15;
+            }
+            
+            // Scale down for mobile
+            if (isSmallMobile) {
+                return Math.max(8, baseSize * 0.6);
+            } else if (isMobile) {
+                return Math.max(10, baseSize * 0.7);
+            }
+            
+            return baseSize;
+        }
+
+        // --- NOVO: Função para Rótulos HTML ---
+        function setupHtmlLabels(renderer) {
+            const graph = renderer.getGraph();
+            const container = renderer.getContainer();
+            const labelsContainer = container.querySelector("#label-container");
+            const camera = renderer.getCamera();
+
+            if (!labelsContainer) {
+                console.error("Label container not found!");
+                return;
+            }
+
+            // Limpa rótulos antigos
+            labelsContainer.innerHTML = '';
+            const labels = {};
+
+            // Cria um div para cada nó
+            graph.forEachNode((node, attributes) => {
+                const label = document.createElement('div');
+                label.className = 'sigma-label';
+                label.innerHTML = attributes.label;
+                label.dataset.node = node;
+                labelsContainer.appendChild(label);
+                labels[node] = {
+                    div: label,
+                    attributes: attributes
+                };
+            });
+
+            // Função para atualizar posições
+            function updateLabels() {
+                const zoomRatio = camera.getState().ratio;
+                
+                // Esconde rótulos se o zoom estiver muito longe
+                // (Ajuste o valor 0.5 conforme necessário)
+                const isVisible = zoomRatio > 0.3;
+                labelsContainer.style.display = isVisible ? 'block' : 'none';
+                if (!isVisible) {
+                    return;
+                }
+
+                graph.forEachNode((node) => {
+                    const data = labels[node].attributes;
+                    const labelDiv = labels[node].div;
+                    
+                    // Converte posição do grafo para posição da tela
+                    const pos = renderer.graphToViewport(data);
+                    
+                    // Calcula o deslocamento para baixo (abaixo do nó)
+                    // (nodeSize / zoomRatio) para que o offset pareça constante
+                    const nodeSizeInViewport = data.size / zoomRatio;
+                    
+                    // Posiciona o rótulo
+                    labelDiv.style.transform = `translate(
+                        ${pos.x}px, 
+                        ${pos.y + (nodeSizeInViewport / 2) + 5}px
+                    ) translateX(-50%)`; // translateX(-50%) para centrar horizontalmente
+                });
+            }
+
+            // Atualiza os rótulos sempre que a câmera mudar
+            camera.on("updated", updateLabels);
+            
+            // Atualização inicial com um pequeno delay
+            // Isso garante que a primeira renderização do Sigma termine
+            // antes de tentarmos posicionar os rótulos, corrigindo o bug de "amontoamento".
+            setTimeout(updateLabels, 0);
+        }
+        // --- FIM DA FUNÇÃO DE RÓTULOS HTML ---
+
+
+        function createGraph(data) {
+            const container = document.getElementById('sigma-container');
+            if (!container) {
+                console.error('❌ Sigma container not found');
+                return;
+            }
+            
+            console.log('📊 Creating graph with container dimensions:', {
+                width: container.offsetWidth,
+                height: container.offsetHeight
+            });
+            
+            try {
+                if (sigmaInstance) {
+                    console.log('🧹 Clearing previous sigma instance');
+                    sigmaInstance.kill();
+                }
+                
+                const graph = new graphology.Graph();
+                
+                console.log('📈 Graph data:', data.nome, '- Nodes:', data.nodes.length, '- Edges:', data.edges.length);
+                
+                data.nodes.forEach((node, index) => {
+                    const containerWidth = container.offsetWidth || 500;
+                    const containerHeight = container.offsetHeight || 400;
+                    const isMobile = window.innerWidth <= 768;
+                    const isSmallMobile = window.innerWidth <= 480;
+                    
+                    let scale;
+                    if (isSmallMobile) {
+                        scale = Math.min(containerWidth, containerHeight) * 0.06;
+                    } else if (isMobile) {
+                        scale = Math.min(containerWidth, containerHeight) * 0.07;
+                    } else {
+                        scale = Math.min(containerWidth, containerHeight) * 0.08;
+                    }
+                    
+                    const maxLabelLength = isSmallMobile ? 12 : isMobile ? 15 : 20;
+                    const nodeLabel = node.label.length > maxLabelLength ? 
+                        node.label.substring(0, maxLabelLength - 3) + '...' : 
+                        node.label;
+                    
+                    const nodeData = {
+                        label: nodeLabel,
+                        fullLabel: node.label, // Usado pelo tooltip
+                        tipo: node.tipo,
+                        x: node.x * scale,
+                        y: node.y * scale,
+                        size: getNodeSize(node.tipo),
+                        color: getNodeColor(node.tipo),
+                        S: node.S,
+                        O: node.O,
+                        D: node.D,
+                        NPR: node.NPR
+                    };
+                    
+                    graph.addNode(node.id, nodeData);
+                });
+                
+                data.edges.forEach((edge, index) => {
+                    try {
+                        graph.addEdge(edge.source, edge.target, {
+                            color: 'rgba(255, 255, 255, 0.6)',
+                            size: 2
+                        });
+                    } catch (e) {
+                        console.warn('⚠️ Error adding edge:', edge, e.message);
+                    }
+                });
+                
+                console.log('🎯 Graph built - Nodes:', graph.order, 'Edges:', graph.size);
+                
+                const isMobile = window.innerWidth <= 768;
+                const isSmallMobile = window.innerWidth <= 480;
+                const sigmaConfig = {
+                    container: container,
+                    graph: graph,
+                    settings: {
+                        // --- MUDANÇA: Desliga rótulos nativos ---
+                        renderLabels: false,
+                        // --- FIM DA MUDANÇA ---
+                        labelFont: "Arial, sans-serif",
+                        labelSize: isSmallMobile ? 8 : isMobile ? 10 : 12,
+                        labelWeight: "600",
+                        labelColor: { color: "#FFFFFF" },
+                        defaultNodeColor: "#FFFFFF",
+                        defaultEdgeColor: "rgba(255, 255, 255, 0.7)",
+                        enableEdgeHoverEvents: false,
+                        minCameraRatio: 0.1,
+                        maxCameraRatio: 4,
+                        zoomToSizeRatioFunction: (x) => x,
+                        itemSizesReference: "positions"
+                    }
+                };
+                
+                sigmaInstance = new Sigma(graph, container, sigmaConfig.settings);
+                
+                console.log('✅ Sigma instance created successfully');
+                
+                // --- NOVO: Chama a função de rótulos HTML ---
+                setupHtmlLabels(sigmaInstance);
+                // --- FIM DA NOVA CHAMADA ---
+
+                if (!tooltip) {
+                    tooltip = document.createElement('div');
+                    tooltip.className = 'tooltip';
+                    tooltip.style.display = 'none';
+                    document.body.appendChild(tooltip);
+                }
+                
+                sigmaInstance.on('enterNode', (event) => {
+                    const { node } = event;
+                    const nodeData = graph.getNodeAttributes(node);
+                    const displayLabel = nodeData.fullLabel || nodeData.label;
+                    
+                    let tooltipHtml = `<strong>${displayLabel}</strong><br>Tipo: ${nodeData.tipo}`;
+                    
+                    if (nodeData.NPR !== undefined && nodeData.NPR !== null && nodeData.NPR !== '') {
+                        tooltipHtml += `<br><hr style="margin: 4px 0; border-color: rgba(255,255,255,0.3);"><strong>NPR: ${nodeData.NPR}</strong>`;
+                    }
+                    if (nodeData.S !== undefined && nodeData.S !== null && nodeData.S !== '') {
+                        tooltipHtml += `<br>S: ${nodeData.S}`;
+                    }
+                    if (nodeData.O !== undefined && nodeData.O !== null && nodeData.O !== '') {
+                        tooltipHtml += `<br>O: ${nodeData.O}`;
+                    }
+                    if (nodeData.D !== undefined && nodeData.D !== null && nodeData.D !== '') {
+                        tooltipHtml += `<br>D: ${nodeData.D}`;
+                    }
+
+                    tooltip.innerHTML = tooltipHtml;
+                    tooltip.style.display = 'block';
+                });
+                
+                sigmaInstance.on('moveBody', (event) => {
+                    if (tooltip.style.display === 'block') {
+                        const { x, y } = event.event;
+                        tooltip.style.left = (x + 10) + 'px';
+                        tooltip.style.top = (y - 30) + 'px';
+                    }
+                });
+                
+                sigmaInstance.on('leaveNode', () => {
+                    tooltip.style.display = 'none';
+                });
+                
+                const legendElement = document.getElementById('current-graph-name');
+                if (legendElement) {
+                    legendElement.innerHTML = `${data.nome}<br><small style="font-weight: normal; opacity: 0.8;">Interativo: zoom, pan, hover</small>`;
+                }
+                
+                const camera = sigmaInstance.getCamera();
+                // camera.setState({ x: 0, y: 0, ratio: 1 }); // REMOVIDO - Isso causava o carregamento no canto
+                
+                // NOVO: Centraliza a câmera no grafo com uma animação suave.
+                // Usamos um setTimeout para garantir que a renderização inicial
+                // tenha tempo de calcular as posições dos nós.
+                setTimeout(() => camera.animatedReset({ duration: 600 }), 0);
+                
+                sigmaInstance.refresh();
+                
+                console.log('🎨 Graph rendered successfully');
+                
+                if (window.innerWidth <= 768) {
+                    const zoomInBtn = document.createElement('button');
+                    const zoomOutBtn = document.createElement('button');
+                    
+                    zoomInBtn.innerHTML = '+';
+                    zoomOutBtn.innerHTML = '−';
+                    
+                    [zoomInBtn, zoomOutBtn].forEach(btn => {
+                        btn.style.cssText = `
+                            position: absolute;
+                            background: rgba(255, 255, 255, 0.9);
+                            border: none;
+                            border-radius: 50%;
+                            width: 35px;
+                            height: 35px;
+                            font-size: 18px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            z-index: 1000;
+                            color: #047857;
+                        `;
+                    });
+                    
+                    zoomInBtn.style.top = '10px';
+                    zoomInBtn.style.right = '10px';
+                    zoomOutBtn.style.top = '50px';
+                    zoomOutBtn.style.right = '10px';
+                    
+                    zoomInBtn.onclick = () => {
+                        const camera = sigmaInstance.getCamera();
+                        camera.animatedZoom({ duration: 200 });
+                    };
+                    
+                    zoomOutBtn.onclick = () => {
+                        const camera = sigmaInstance.getCamera();
+                        camera.animatedUnzoom({ duration: 200 });
+                    };
+                    
+                    container.style.position = 'relative';
+                    container.appendChild(zoomInBtn);
+                    container.appendChild(zoomOutBtn);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error creating graph:', error);
+                
+                container.innerHTML = `
+                    <div style="color: white; text-align: center; padding: 2rem; font-size: 0.9rem;">
+                        📊 Grafo HFMEA<br>
+                        Processo de Medicação Hospitalar<br>
+                        <small>Erro na inicialização: ${error.message}</small>
+                    </div>
+                `;
+            }
+        }
+
+
+
+        // Contact Form Handler
+        function handleContactForm() {
+            const form = document.getElementById('contactForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(form);
+                    const nome = formData.get('nome');
+                    const email = formData.get('email');
+                    const telefone = formData.get('telefone');
+                    const empresa = formData.get('empresa');
+                    const mensagem = formData.get('mensagem');
+                    
+                    if (!nome || !email || !mensagem) {
+                        alert('Por favor, preencha todos os campos obrigatórios.');
+                        return;
+                    }
+                    
+                    alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+                    
+                    form.reset();
+                });
+            }
+        }
+
+        // Responsive graph resize handler
+        function handleGraphResize() {
+            if (sigmaInstance) {
+                sigmaInstance.getCamera().resize();
+                sigmaInstance.refresh();
+            }
+        }
+        
+        // Window resize listener for responsive graph
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(handleGraphResize, 250);
+        });
+        
+        // Enhanced mobile graph interaction with better touch handling
+        function enableMobileGraphInteraction() {
+            const container = document.getElementById('sigma-container');
+            if (container && sigmaInstance) {
+                let lastTouchDistance = 0;
+                let initialScale = 1;
+                let isPanning = false;
+                let lastPanPoint = null;
+                
+                // Pinch to zoom
+                container.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 2) {
+                        const touch1 = e.touches[0];
+                        const touch2 = e.touches[1];
+                        lastTouchDistance = Math.hypot(
+                            touch2.clientX - touch1.clientX,
+                            touch2.clientY - touch1.clientY
+                        );
+                        initialScale = sigmaInstance.getCamera().getState().ratio;
+                    } else if (e.touches.length === 1) {
+                        isPanning = true;
+                        lastPanPoint = {
+                            x: e.touches[0].clientX,
+                            y: e.touches[0].clientY
+                        };
+                    }
+                }, { passive: true });
+                
+                container.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 2) {
+                        e.preventDefault();
+                        const touch1 = e.touches[0];
+                        const touch2 = e.touches[1];
+                        const currentDistance = Math.hypot(
+                            touch2.clientX - touch1.clientX,
+                            touch2.clientY - touch1.clientY
+                        );
+                        
+                        if (lastTouchDistance > 0) {
+                            const scale = currentDistance / lastTouchDistance;
+                            const newRatio = initialScale / scale;
+                            sigmaInstance.getCamera().setState({
+                                ratio: Math.max(0.1, Math.min(3, newRatio))
+                            });
+                        }
+                    } else if (e.touches.length === 1 && isPanning && lastPanPoint) {
+                        e.preventDefault();
+                        const deltaX = e.touches[0].clientX - lastPanPoint.x;
+                        const deltaY = e.touches[0].clientY - lastPanPoint.y;
+                        const camera = sigmaInstance.getCamera();
+                        camera.setState({
+                            x: camera.getState().x + deltaX * 0.5,
+                            y: camera.getState().y + deltaY * 0.5
+                        });
+                        lastPanPoint = {
+                            x: e.touches[0].clientX,
+                            y: e.touches[0].clientY
+                        };
+                    }
+                }, { passive: false });
+                
+                container.addEventListener('touchend', (e) => {
+                    isPanning = false;
+                    lastPanPoint = null;
+                }, { passive: true });
+                
+                // Reset graph position button for mobile
+                const resetButton = document.createElement('button');
+                resetButton.textContent = '⌂';
+                resetButton.className = 'graph-reset-btn';
+                resetButton.style.cssText = `
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(255, 255, 255, 0.9);
+                    border: none;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    font-size: 18px;
+                    cursor: pointer;
+                    z-index: 1000;
+                    display: ${window.innerWidth <= 768 ? 'block' : 'none'};
+                `;
+                
+                resetButton.addEventListener('click', () => {
+                    sigmaInstance.getCamera().setState({ x: 0, y: 0, ratio: 1 });
+                });
+                
+                container.style.position = 'relative';
+                // container.appendChild(resetButton); // Botão removido para dar espaço aos controles de zoom
+            }
+        }
+        
+        // Enhanced orientation and resize handling
+        function handleOrientationChange() {
+            setTimeout(() => {
+                handleGraphResize();
+            }, 100);
+        }
+        
+        window.addEventListener('orientationchange', handleOrientationChange);
+        
+        // Prevent zoom on double tap for better UX
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                const target = event.target;
+                if (!target.closest('.graph-container, #sigma-container')) {
+                    event.preventDefault();
+                }
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Initialize graph on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Initialize contact form
+            handleContactForm();
+            
+            const sigmaContainer = document.getElementById('sigma-container');
+            if (sigmaContainer) {
+                sigmaContainer.style.width = '100%';
+                sigmaContainer.style.height = '100%';
+                sigmaContainer.style.minHeight = '400px';
+                
+                console.log('📊 Sigma container dimensions set:', {
+                    width: sigmaContainer.offsetWidth,
+                    height: sigmaContainer.offsetHeight
+                });
+            }
+            
+            const graphContainer = document.querySelector('.graph-container');
+            if (graphContainer) {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.innerHTML = '<div style="color: white; text-align: center; padding: 2rem; font-size: 1rem;">🔄 Carregando HFMEA...</div>';
+                loadingDiv.id = 'graph-loading';
+                loadingDiv.style.cssText = 'position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; z-index: 10;';
+                graphContainer.appendChild(loadingDiv);
+            }
+            
+            function waitForLibraries(callback, maxAttempts = 10, attempt = 1) {
+                console.log(`🔍 Checking libraries (attempt ${attempt}/${maxAttempts}):`);
+                console.log('- graphology:', typeof graphology);
+                console.log('- Sigma:', typeof Sigma);
+                
+                if (typeof graphology !== 'undefined' && typeof Sigma !== 'undefined') {
+                    console.log('✅ All libraries loaded successfully!');
+                    callback();
+                } else if (attempt < maxAttempts) {
+                    setTimeout(() => waitForLibraries(callback, maxAttempts, attempt + 1), 200);
+                } else {
+                    console.error('❌ Failed to load libraries after', maxAttempts, 'attempts');
+                    showGraphFallback('Bibliotecas não carregaram');
+                }
+            }
+            
+            function initializeGraph() {
+                try {
+                    console.log('🚀 Starting graph initialization...');
+                    
+                    const container = document.getElementById('sigma-container');
+                    if (!container) {
+                        throw new Error('Sigma container not found');
+                    }
+                    
+                    console.log('📐 Container status:', {
+                        exists: !!container,
+                        width: container.offsetWidth,
+                        height: container.offsetHeight,
+                        visible: container.offsetParent !== null
+                    });
+                    
+                    if (container.offsetWidth === 0 || container.offsetHeight === 0) {
+                        console.warn('⚠️ Container has no dimensions, waiting...');
+                        setTimeout(initializeGraph, 300);
+                        return;
+                    }
+
+                    // LÓGICA DE FETCH: Busca dados da API Flask
+                    fetch('/api/hfmea_graph')
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(err => { 
+                                    throw new Error(err.error || `API falhou com status ${response.status}`);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(apiData => {
+                            if (apiData.error) {
+                                throw new Error(apiData.error);
+                            }
+                            console.log('✅ API data received:', apiData);
+                            createGraph(apiData); // Chama createGraph com os dados da API
+                            enableMobileGraphInteraction();
+                            
+                            const loading = document.getElementById('graph-loading');
+                            if (loading) {
+                                loading.style.opacity = '0';
+                                setTimeout(() => loading.remove(), 300);
+                            }
+                            console.log('✅ Graph initialization completed successfully');
+                        })
+                        .catch(error => {
+                            console.error('❌ Erro ao buscar ou processar dados da API:', error);
+                            showGraphFallback(`Erro ao carregar dados: ${error.message}`);
+                        });
+                    
+                } catch (error) {
+                    console.error('❌ Error initializing graph:', error);
+                    showGraphFallback(`Erro: ${error.message}`);
+                }
+            }
+            
+            function showGraphFallback(message) {
+                const container = document.getElementById('sigma-container');
+                if (container) {
+                    container.innerHTML = `
+                        <div style="
+                            color: white; 
+                            text-align: center; 
+                            padding: 2rem; 
+                            font-size: 0.95rem;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100%;
+                            background: rgba(0,0,0,0.1);
+                            border-radius: 8px;
+                        ">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                            <div style="font-weight: bold; margin-bottom: 0.5rem;">Grafo HFMEA</div>
+                            <div style="margin-bottom: 0.5rem;">Processo de Medicação Hospitalar</div>
+                            <div style="margin-bottom: 1rem; font-size: 0.8rem; opacity: 0.9;"></div>
+                            <small style="opacity: 0.8;">${message}</small>
+                            <button onclick="location.reload()" style="
+                                margin-top: 1rem;
+                                padding: 8px 16px;
+                                background: rgba(255,255,255,0.2);
+                                color: white;
+                                border: 1px solid rgba(255,255,255,0.3);
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-size: 0.8rem;
+                                min-height: 36px;
+                            ">Recarregar Página</button>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Start the initialization process
+            waitForLibraries(initializeGraph);
+        });
+    </script>
+</body>
+</html>
+
